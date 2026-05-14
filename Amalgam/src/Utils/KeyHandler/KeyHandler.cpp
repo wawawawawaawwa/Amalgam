@@ -78,34 +78,34 @@ static inline bool VirtualKeyOverride(byte iKey, std::string& sKey)
 {
 	switch (iKey)
 	{
-	case 0x0: sKey = "none"; return true;
-	case VK_LBUTTON: sKey = "mouse1"; return true;
-	case VK_RBUTTON: sKey = "mouse2"; return true;
-	case VK_MBUTTON: sKey = "mouse3"; return true;
-	case VK_XBUTTON1: sKey = "mouse4"; return true;
-	case VK_XBUTTON2: sKey = "mouse5"; return true;
-	case VK_F13: sKey = "f13"; return true;
-	case VK_F14: sKey = "f14"; return true;
-	case VK_F15: sKey = "f15"; return true;
-	case VK_F16: sKey = "f16"; return true;
-	case VK_F17: sKey = "f17"; return true;
-	case VK_F18: sKey = "f18"; return true;
-	case VK_F19: sKey = "f19"; return true;
-	case VK_F20: sKey = "f20"; return true;
-	case VK_F21: sKey = "f21"; return true;
-	case VK_F22: sKey = "f22"; return true;
-	case VK_F23: sKey = "f23"; return true;
-	case VK_F24: sKey = "f24"; return true;
+	case 0x0: sKey = "NONE"; return true;
+	case VK_LBUTTON: sKey = "M1"; return true;
+	case VK_RBUTTON: sKey = "M2"; return true;
+	case VK_MBUTTON: sKey = "M3"; return true;
+	case VK_XBUTTON1: sKey = "M4"; return true;
+	case VK_XBUTTON2: sKey = "M5"; return true;
+	case VK_F13: sKey = "F13"; return true;
+	case VK_F14: sKey = "F14"; return true;
+	case VK_F15: sKey = "F15"; return true;
+	case VK_F16: sKey = "F16"; return true;
+	case VK_F17: sKey = "F17"; return true;
+	case VK_F18: sKey = "F18"; return true;
+	case VK_F19: sKey = "F19"; return true;
+	case VK_F20: sKey = "F20"; return true;
+	case VK_F21: sKey = "F21"; return true;
+	case VK_F22: sKey = "F22"; return true;
+	case VK_F23: sKey = "F23"; return true;
+	case VK_F24: sKey = "F24"; return true;
 	case VK_LWIN:
-	case VK_RWIN: sKey = "windows"; return true;
-	case VK_APPS: sKey = "contextmenu"; return true;
-	case VK_VOLUME_MUTE: sKey = "mute"; return true;
-	case VK_VOLUME_DOWN: sKey = "volumedown"; return true;
-	case VK_VOLUME_UP: sKey = "volumeup"; return true;
-	case VK_MEDIA_STOP: sKey = "stop"; return true;
-	case VK_MEDIA_PLAY_PAUSE: sKey = "playpause"; return true;
-	case VK_MEDIA_PREV_TRACK: sKey = "previous"; return true;
-	case VK_MEDIA_NEXT_TRACK: sKey = "next"; return true;
+	case VK_RWIN: sKey = "WIN"; return true;
+	case VK_APPS: sKey = "MENU"; return true;
+	case VK_VOLUME_MUTE: sKey = "MUTE"; return true;
+	case VK_VOLUME_DOWN: sKey = "VOL-"; return true;
+	case VK_VOLUME_UP: sKey = "VOL+"; return true;
+	case VK_MEDIA_STOP: sKey = "STOP"; return true;
+	case VK_MEDIA_PLAY_PAUSE: sKey = "PLAY/PAUSE"; return true;
+	case VK_MEDIA_PREV_TRACK: sKey = "PREV"; return true;
+	case VK_MEDIA_NEXT_TRACK: sKey = "NEXT"; return true;
 	}
 
 	return false;
