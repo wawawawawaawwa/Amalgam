@@ -34,3 +34,4 @@ jobs:
       with:
         name: Amalgam${{ matrix.platform }}${{ matrix.configuration }}PDB
         path: output/${{ matrix.platform }}/${{ matrix.configuration }}/*.pdb
+        
