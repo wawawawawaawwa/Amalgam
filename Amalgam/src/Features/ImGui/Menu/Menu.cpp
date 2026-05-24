@@ -3866,15 +3866,8 @@ void CMenu::DrawBinds()
 				if (tBind.m_bNot && (tBind.m_iType != BindEnum::Key || tBind.m_iInfo == BindEnum::KeyEnum::Hold))
 					sKey = std::format("!{}", sKey);
 
-				// Auto-Capitalize the bind name (e.g. "aim type" -> "Aim Type")
-				std::string sFormattedName = tBind.m_sName;
-				bool bCapNext = true;
-				for (char& c : sFormattedName) {
-					if (std::isspace(c)) bCapNext = true;
-					else if (bCapNext) { c = std::toupper(c); bCapNext = false; }
-				}
 
-				vInfo.emplace_back(sFormattedName.c_str(), sMode, sKey, iBind, tBind);
+				vInfo.emplace_back(tBind.m_sName.c_str(), sMode, sKey, iBind, tBind);
 			}
 
 			if (tBind.m_bActive || m_bIsOpen)
@@ -3899,15 +3892,14 @@ void CMenu::DrawBinds()
 		flModeWidth = std::max(flModeWidth, FCalcTextSize(sMode.c_str()).x);
 		flKeyWidth = std::max(flKeyWidth, FCalcTextSize(sKey.c_str()).x);
 	}
-	flStateWidth = FCalcTextSize("False").x; 
+	flStateWidth = FCalcTextSize("False").x;
 	PopFont();
 
-	// Very tight spacing to match your 2nd photo exactly
-	flNameWidth += H::Draw.Scale(12);
-	flModeWidth += H::Draw.Scale(12);
-	flKeyWidth += H::Draw.Scale(12);
+	flNameWidth += H::Draw.Scale(25);
+	flModeWidth += H::Draw.Scale(20);
+	flKeyWidth += H::Draw.Scale(20);
 
-	float flWidth = flNameWidth + flModeWidth + flKeyWidth + flStateWidth + (m_bIsOpen ? H::Draw.Scale(113) : H::Draw.Scale(16));
+	float flWidth = flNameWidth + flModeWidth + flKeyWidth + flStateWidth + (m_bIsOpen ? H::Draw.Scale(113) : H::Draw.Scale(20));
 	float flHeight = H::Draw.Scale(18 * vInfo.size() + (Vars::Menu::BindWindowTitle.Value ? 30 : 12));
 	
 	SetNextWindowSize({ flWidth, flHeight });
@@ -3931,18 +3923,15 @@ void CMenu::DrawBinds()
 		if (Vars::Menu::BindWindowTitle.Value)
 		{
 			SetCursorPos({ H::Draw.Scale(8), H::Draw.Scale(4) });
-			PushStyleColor(ImGuiCol_Text, F::Render.Inactive.Value);
 			FText("binds");
-			PopStyleColor();
 			
 			ImVec2 vDrawPos = GetCursorScreenPos();
 			vDrawPos.y += H::Draw.Scale(2);
 			
-			// Dimmer, subtle separator line
 			GetWindowDrawList()->AddLine(
 				ImVec2(vWindowPos.x + H::Draw.Scale(8), vDrawPos.y),
 				ImVec2(vWindowPos.x + flWidth - H::Draw.Scale(8), vDrawPos.y),
-				ImColor(F::Render.Inactive.Value.x, F::Render.Inactive.Value.y, F::Render.Inactive.Value.z, 0.3f),
+				ImColor(F::Render.Active.Value.x, F::Render.Active.Value.y, F::Render.Active.Value.z, 0.4f),
 				1.0f
 			);
 
@@ -3961,16 +3950,16 @@ void CMenu::DrawBinds()
 		{
 			float flPosX = 0;
 
-			// Smoothly animate between Grey (Inactive) and White (Active)
+	
 			float& flAlpha = m_mBindAlphas[iBind];
-			flAlpha += (ImGui::GetIO().DeltaTime * 12.0f) * (tBind.m_bActive ? 1.0f : -1.0f);
-			flAlpha = std::clamp(flAlpha, 0.0f, 1.0f);
+			flAlpha = fLerp(flAlpha, tBind.m_bActive ? 1.0f : 0.0f, ImGui::GetIO().DeltaTime * 12.0f);
 			ImVec4 tColor = fLerpVec4(F::Render.Inactive.Value, F::Render.Active.Value, flAlpha);
 
 			if (m_bIsOpen)
 				PushTransparent(!F::Binds.WillBeEnabled(iBind), true);
 
 			PushStyleColor(ImGuiCol_Text, tColor);
+
 
 			SetCursorPos({ flPosX += H::Draw.Scale(8), H::Draw.Scale(iListStart + 18 * i) });
 			FText(sName);
