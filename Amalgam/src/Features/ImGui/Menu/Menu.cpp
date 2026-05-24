@@ -3820,8 +3820,8 @@ void CMenu::DrawBinds()
 				std::string sKey;
 				switch (tBind.m_iType)
 				{
-				case BindEnum::Key:
-					sKey = VK2STR(tBind.m_iKey);
+                    case BindEnum::Key:
+					sKey = ImGui::VK2STR(tBind.m_iKey);
 					if (sKey.length() > 1 && sKey.find("mouse") == std::string::npos && sKey != "shift") {
 						sKey[0] = std::toupper(sKey[0]);
 					}
