@@ -1,6 +1,6 @@
 <div align="center">
 
-  ## <img src=".github/assets/amalgam_combo.png" alt="Amalgam" height="100">
+# Amalgam
 
   [![Workflow status](https://img.shields.io/github/actions/workflow/status/rei-2/Amalgam/msbuild.yml?branch=master&style=for-the-badge)](/../../actions)
   [![Commit activity](https://img.shields.io/github/commit-activity/m/rei-2/Amalgam?style=for-the-badge)](/../../commits/)
