@@ -3785,6 +3785,84 @@ void CMenu::DrawBinds()
 	if (m_bIsOpen ? false : !Vars::Menu::BindWindow.Value || I::EngineVGui->IsGameUIVisible() || I::MatSystemSurface->IsCursorVisible() && !I::EngineClient->IsPlayingDemo())
 		return;
 
+	auto GetKeyName = [](short key) -> std::string {
+		switch (key) {
+		case 0x0: return "none";
+		case VK_LBUTTON: return "mouse1";
+		case VK_RBUTTON: return "mouse2";
+		case VK_MBUTTON: return "mouse3";
+		case VK_XBUTTON1: return "mouse4";
+		case VK_XBUTTON2: return "mouse5";
+		case VK_SHIFT: return "shift";
+		case VK_LSHIFT: return "lshift";
+		case VK_RSHIFT: return "rshift";
+		case VK_CONTROL: return "control";
+		case VK_LCONTROL: return "lcontrol";
+		case VK_RCONTROL: return "rcontrol";
+		case VK_MENU: return "alt";
+		case VK_LMENU: return "lalt";
+		case VK_RMENU: return "ralt";
+		case VK_NUMPAD0: return "num0";
+		case VK_NUMPAD1: return "num1";
+		case VK_NUMPAD2: return "num2";
+		case VK_NUMPAD3: return "num3";
+		case VK_NUMPAD4: return "num4";
+		case VK_NUMPAD5: return "num5";
+		case VK_NUMPAD6: return "num6";
+		case VK_NUMPAD7: return "num7";
+		case VK_NUMPAD8: return "num8";
+		case VK_NUMPAD9: return "num9";
+		case VK_ADD: return "num+";
+		case VK_SUBTRACT: return "num-";
+		case VK_MULTIPLY: return "num*";
+		case VK_DIVIDE: return "num/";
+		case VK_DECIMAL: return "num.";
+		case VK_INSERT: return "insert";
+		case VK_DELETE: return "delete";
+		case VK_PRIOR: return "pgup";
+		case VK_NEXT: return "pgdown";
+		case VK_HOME: return "home";
+		case VK_END: return "end";
+		case VK_CLEAR: return "clear";
+		case VK_UP: return "up";
+		case VK_DOWN: return "down";
+		case VK_LEFT: return "left";
+		case VK_RIGHT: return "right";
+		case VK_ESCAPE: return "escape";
+		case VK_F13: return "f13";
+		case VK_F14: return "f14";
+		case VK_F15: return "f15";
+		case VK_F16: return "f16";
+		case VK_F17: return "f17";
+		case VK_F18: return "f18";
+		case VK_F19: return "f19";
+		case VK_F20: return "f20";
+		case VK_F21: return "f21";
+		case VK_F22: return "f22";
+		case VK_F23: return "f23";
+		case VK_F24: return "f24";
+		case VK_LWIN:
+		case VK_RWIN: return "windows";
+		case VK_APPS: return "contextmenu";
+		case VK_PAUSE: return "pause";
+		case VK_VOLUME_MUTE: return "mute";
+		case VK_VOLUME_DOWN: return "volumedown";
+		case VK_VOLUME_UP: return "volumeup";
+		case VK_MEDIA_STOP: return "stop";
+		case VK_MEDIA_PLAY_PAUSE: return "pause";
+		case VK_MEDIA_PREV_TRACK: return "previous";
+		case VK_MEDIA_NEXT_TRACK: return "next";
+		}
+
+		std::string str = "unknown";
+		if (char buffer[16]; GetKeyNameTextA(MapVirtualKeyA(key, MAPVK_VK_TO_VSC) << 16, buffer, sizeof(buffer))) {
+			str = buffer;
+			std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+			str.erase(std::remove_if(str.begin(), str.end(), ::isspace), str.end());
+		}
+		return str;
+	};
+
 	struct BindDisplay_t {
 		std::string m_sFullName;
 		std::string m_sKey;
@@ -3815,13 +3893,12 @@ void CMenu::DrawBinds()
 					case BindEnum::KeyEnum::DoubleClick:sMode = "double"; break;
 					}
 				}
-				 else if (tBind.m_iVisibility == BindVisibilityEnum::WhileActive)
-					sMode = "active";
+
 				std::string sKey;
 				switch (tBind.m_iType)
 				{
-                    case BindEnum::Key:
-					sKey = ImGui::VK2STR(tBind.m_iKey);
+				case BindEnum::Key:
+					sKey = GetKeyName(tBind.m_iKey); 
 					if (sKey.length() > 1 && sKey.find("mouse") == std::string::npos && sKey != "shift") {
 						sKey[0] = std::toupper(sKey[0]);
 					}
@@ -4092,7 +4169,6 @@ void CMenu::DrawBinds()
 	}
 	PopStyleVar(3);
 }
-
 static inline void SquareConstraints(ImGuiSizeCallbackData* data)
 {
 	//data->DesiredSize.x = data->DesiredSize.y = std::max(data->DesiredSize.x, data->DesiredSize.y);
